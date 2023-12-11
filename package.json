@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.27.5",
     "@hookform/resolvers": "^3.3.2",
+    "@prisma/client": "^5.7.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
@@ -21,7 +22,6 @@
     "husky": "^8.0.3",
     "lucide-react": "^0.294.0",
     "next": "14.0.4",
-    "prisma": "^5.7.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.0",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "prisma": "^5.7.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
