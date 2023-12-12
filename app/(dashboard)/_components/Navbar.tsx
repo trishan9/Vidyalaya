@@ -1,5 +1,5 @@
-import MobileSidebar from "./mobile-sidebar";
-import NavBarRoutes from "./navbar-routes";
+import MobileSidebar from "./MobileSidebar";
+import NavBarRoutes from "./NavbarRoutes";
 
 const NavBar = () => {
   return (

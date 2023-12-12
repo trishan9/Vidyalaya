@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import ToastProvider from "@/components/providers/toast-provider";
+import ToastProvider from "@/components/providers/ToastProvider";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 

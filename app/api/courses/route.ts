@@ -2,12 +2,6 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 
-export async function GET() {
-  return NextResponse.json({
-    message: "Courses",
-  });
-}
-
 export async function POST(req: Request) {
   try {
     const { userId } = auth();
@@ -25,6 +19,6 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(course);
   } catch (error) {
-    return new NextResponse("Error Occured", { status: 500 });
+    return new NextResponse("Can't create course", { status: 500 });
   }
 }

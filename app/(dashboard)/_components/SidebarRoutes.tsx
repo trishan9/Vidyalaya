@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { BarChart, Compass, Layout, List } from "lucide-react";
-import SidebarItem, { ISidebarItemProps } from "./sidebar-item";
+import SidebarItem, { ISidebarItemProps } from "./SidebarItem";
 
 const guestRoutes = [
   {

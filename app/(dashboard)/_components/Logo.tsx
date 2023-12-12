@@ -13,6 +13,7 @@ const Logo = () => {
 
       <div className="flex flex-col gap-0">
         <h1 className="text-xl font-semibold text-[#0B3954]">Vidyalaya</h1>
+
         <p className="text-xs font-semibold">Your Digital School</p>
       </div>
     </div>
