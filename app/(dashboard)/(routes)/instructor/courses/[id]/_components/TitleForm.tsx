@@ -1,12 +1,14 @@
 "use client";
 
+import { Fragment, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Course } from "@prisma/client";
-
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
+import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,9 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Pencil } from "lucide-react";
-import { Fragment, useState } from "react";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -67,7 +66,7 @@ const TitleForm = ({
           ) : (
             <Fragment>
               <Pencil className="w-4 h-4 mr-2" />
-              Edit Title
+              Edit title
             </Fragment>
           )}
         </Button>

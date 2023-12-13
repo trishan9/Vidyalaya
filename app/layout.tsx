@@ -4,7 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import ToastProvider from "@/components/providers/ToastProvider";
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const dmSans = DM_Sans({ subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
   title: "Vidyalaya : Your Digital School",

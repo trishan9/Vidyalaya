@@ -18,20 +18,20 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import { Combobox } from "@/components/ui/combobox";
 
 const formSchema = z.object({
-  description: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
+  categoryId: z.string().min(1),
 });
 
-const DescriptionForm = ({
+const CategoryForm = ({
   initialData,
   courseId,
+  options,
 }: {
   initialData: Course;
   courseId: Course["id"];
+  options: { label: string; value: string }[];
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
@@ -40,7 +40,7 @@ const DescriptionForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...initialData,
-      description: initialData.description ? initialData.description : "",
+      categoryId: initialData.categoryId ? initialData.categoryId : "",
     },
   });
 
@@ -49,7 +49,7 @@ const DescriptionForm = ({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course description updated sucessfully");
+      toast.success("Course category updated sucessfully");
       setIsEditing((current) => !current);
       router.refresh();
     } catch (error) {
@@ -57,10 +57,14 @@ const DescriptionForm = ({
     }
   }
 
+  const selectedOption = options.find(
+    (option) => option.value === initialData.categoryId
+  );
+
   return (
     <div className="p-4 mt-6 border rounded-md bg-slate-100">
       <div className="flex items-center justify-between font-medium">
-        Course description
+        Course category
         <Button
           variant="ghost"
           onClick={() => setIsEditing((current) => !current)}
@@ -70,7 +74,7 @@ const DescriptionForm = ({
           ) : (
             <Fragment>
               <Pencil className="w-4 h-4 mr-2" />
-              Edit description
+              Edit category
             </Fragment>
           )}
         </Button>
@@ -84,17 +88,12 @@ const DescriptionForm = ({
           >
             <FormField
               control={form.control}
-              name="description"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'This course is about...'"
-                      {...field}
-                    />
+                    <Combobox {...field} options={options} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -109,14 +108,14 @@ const DescriptionForm = ({
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.description && "text-slate-500 italic"
+            !initialData.categoryId && "text-slate-500 italic"
           )}
         >
-          {initialData.description || "No description"}
+          {selectedOption?.label || "No category"}
         </p>
       )}
     </div>
   );
 };
 
-export default DescriptionForm;
+export default CategoryForm;
