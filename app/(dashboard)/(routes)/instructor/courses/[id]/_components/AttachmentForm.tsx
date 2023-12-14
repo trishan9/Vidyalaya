@@ -7,7 +7,15 @@ import type { Attachment, Course } from "@prisma/client";
 import axios from "axios";
 import * as z from "zod";
 import toast from "react-hot-toast";
-import { File, ImageIcon, Pencil, PlusCircle } from "lucide-react";
+import {
+  Divide,
+  File,
+  ImageIcon,
+  Loader2,
+  Pencil,
+  PlusCircle,
+  Trash2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
@@ -24,6 +32,7 @@ const AttachmentForm = ({
   courseId: Course["id"];
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -34,6 +43,19 @@ const AttachmentForm = ({
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
+    }
+  }
+
+  async function onDelete(id: string) {
+    try {
+      setDeletingId(id);
+      await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+      toast.success("Course attachment deleted sucessfully");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -82,6 +104,20 @@ const AttachmentForm = ({
                 >
                   <File className="flex-shrink-0 w-4 h-4 mr-2" />
                   <p className="text-xs line-clamp-1">{attachment.name}</p>
+
+                  {deletingId === attachment.id ? (
+                    <div className="ml-auto">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => onDelete(attachment.id)}
+                      className="ml-auto transition hover:opacity-75"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

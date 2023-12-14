@@ -6,14 +6,14 @@ export async function PATCH(
   req: Request,
   { params: { id } }: { params: { id: string } }
 ) {
-  const { userId } = auth();
-  const payload = await req.json();
-
-  if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
   try {
+    const { userId } = auth();
+    const payload = await req.json();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const course = await db.course.update({
       data: {
         ...payload,
