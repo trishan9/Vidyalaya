@@ -1,14 +1,33 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
 import ToastProvider from "@/components/providers/ToastProvider";
+import "./globals.css";
 
 const dmSans = DM_Sans({ subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
-  title: "Vidyalaya : Your Digital School",
-  description: "Browse different courses and learn more about the tech.",
+  title: {
+    default: "Vidyalaya",
+    template: `%s | Vidyalaya`,
+  },
+  description:
+    "Browse different free and paid courses and kickstart your tech career with Vidyalaya",
+  keywords: [
+    "Udemy",
+    "Vidyalaya",
+    "Next.js",
+    "React",
+    "Tailwind CSS",
+    "Server Components",
+    "Shadcn UI",
+  ],
+  authors: [
+    {
+      name: "Trishan Wagle",
+    },
+  ],
+  creator: "Trishan Wagle",
 };
 
 export default function RootLayout({
