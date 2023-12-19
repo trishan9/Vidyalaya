@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
-import { PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import ChaptersList from "./ChaptersList";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -62,8 +63,33 @@ const ChaptersForm = ({
     }
   }
 
+  const onReorder = async (updateData: { id: string; position: number }[]) => {
+    try {
+      setIsUpdating(true);
+      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+        list: updateData,
+      });
+      toast.success("Chapter reordered succesfully");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const onEdit = (id: string) => {
+    router.push(`/instructor/courses/${courseId}/chapters/${id}`);
+  };
+
   return (
-    <div className="p-4 mt-6 border rounded-md bg-slate-100">
+    <div className="relative p-4 mt-6 border rounded-md bg-slate-100">
+      {isUpdating && (
+        <div className="absolute top-0 right-0 flex items-center justify-center w-full h-full rounded-md bg-slate-500/20">
+          <Loader2 className="w-6 h-6 animate-spin text-sky-700" />
+        </div>
+      )}
+
       <div className="flex items-center justify-between font-medium">
         Course chapters
         <Button
@@ -120,7 +146,12 @@ const ChaptersForm = ({
           )}
         >
           {!initialData.chapters.length && "No Chapters"}
-          {/* Todo: Add a list of chapters */}
+
+          <ChaptersList
+            onEdit={onEdit}
+            onReorder={onReorder}
+            items={initialData.chapters || []}
+          />
         </div>
       )}
 
