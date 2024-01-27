@@ -7,6 +7,7 @@ import IconBadge from "@/components/IconBadge";
 import TitleForm from "./_components/TitleForm";
 import DescriptionForm from "./_components/DescriptionForm";
 import AccessForm from "./_components/AccessForm";
+import VideoForm from "./_components/VideoForm";
 
 const ChapterIdPage = async ({
   params: { id: courseId, chapterId },
@@ -106,6 +107,12 @@ const ChapterIdPage = async ({
 
             <h2 className="text-xl">Add a video</h2>
           </div>
+
+          <VideoForm
+            initialData={chapter}
+            courseId={courseId}
+            chapterId={chapterId}
+          />
         </div>
       </div>
     </div>

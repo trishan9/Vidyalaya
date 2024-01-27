@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
+import Mux from "@mux/mux-node";
 import { db } from "@/lib/db";
+
+const { Video } = new Mux(
+  process.env.MUX_TOKEN_ID!,
+  process.env.MUX_TOKEN_SECRET!,
+);
 
 export async function PATCH(
   req: Request,
   {
     params: { id: courseId, chapterId },
-  }: { params: { id: string; chapterId: string } }
+  }: { params: { id: string; chapterId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -50,8 +56,36 @@ export async function PATCH(
         courseId,
       },
     });
+    if (payload.videoUrl) {
+      const muxDataExists = await db.muxData.findFirst({
+        where: {
+          chapterId,
+        },
+      });
 
-    // TODO: Handle Video Upload
+      if (muxDataExists) {
+        await Video.Assets.del(muxDataExists.assetId);
+        await db.muxData.delete({
+          where: {
+            id: muxDataExists.id,
+          },
+        });
+      }
+
+      const asset = await Video.Assets.create({
+        input: payload.videoUrl,
+        playback_policy: "public",
+        test: false,
+      });
+
+      await db.muxData.create({
+        data: {
+          chapterId,
+          assetId: asset.id,
+          playbackId: asset.playback_ids?.[0]?.id,
+        },
+      });
+    }
 
     return NextResponse.json(chapter);
   } catch {
