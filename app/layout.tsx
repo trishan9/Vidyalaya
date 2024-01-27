@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import ToastProvider from "@/components/providers/ToastProvider";
 import "./globals.css";
+import ConfettiProvider from "@/components/providers/ConfettiProvider";
 
 const dmSans = DM_Sans({ subsets: ["latin-ext"] });
 
@@ -42,6 +43,8 @@ export default function RootLayout({
           <link rel="icon" href="/logo.png" sizes="any" />
         </head>
         <body className={dmSans.className}>
+          <ConfettiProvider />
+
           <ToastProvider />
 
           {children}
