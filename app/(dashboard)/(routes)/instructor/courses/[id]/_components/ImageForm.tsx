@@ -79,10 +79,10 @@ const ImageForm = ({
           />
         </div>
       ) : (
-        <p
+        <div
           className={cn(
             "text-sm mt-2",
-            !initialData.imageUrl && "text-slate-500 italic"
+            !initialData.imageUrl && "text-slate-500 italic",
           )}
         >
           {initialData.imageUrl ? (
@@ -99,7 +99,7 @@ const ImageForm = ({
               <ImageIcon className="w-10 h-10 text-slate-500" />
             </div>
           )}
-        </p>
+        </div>
       )}
     </div>
   );

@@ -126,7 +126,11 @@ const ChapterIdPage = async ({
               <h2 className="text-xl">Add a video</h2>
             </div>
 
-            <VideoForm initialData={chapter} courseId={courseId} chapterId="" />
+            <VideoForm
+              initialData={chapter}
+              courseId={courseId}
+              chapterId={chapterId}
+            />
           </div>
         </div>
       </div>
